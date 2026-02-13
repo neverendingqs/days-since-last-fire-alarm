@@ -46,7 +46,36 @@
 </head>
 <body>
     <div class="container">
-        <h1>Days Since Last Fire Alarm: 1</h1>
+        <h1>Days Since Last Fire Alarm: <span id="days-count">0</span></h1>
     </div>
+    <script>
+        // Set the datetime of the last fire alarm (ISO 8601 format with timezone)
+        // Update this variable whenever there's a new fire alarm
+        const lastFireAlarmDatetime = '2026-02-12T13:30:32.162Z';
+
+        function calculateDaysSinceLastFireAlarm() {
+            const lastFireAlarm = new Date(lastFireAlarmDatetime);
+            const now = new Date();
+            
+            // Calculate the difference in milliseconds
+            const diffMs = now - lastFireAlarm;
+            
+            // Convert milliseconds to days (1 day = 24 * 60 * 60 * 1000 ms)
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            
+            return diffDays;
+        }
+
+        function updateDisplay() {
+            const daysCount = calculateDaysSinceLastFireAlarm();
+            document.getElementById('days-count').textContent = daysCount;
+        }
+
+        // Update immediately on page load
+        updateDisplay();
+
+        // Update every hour to reflect the current day
+        setInterval(updateDisplay, 60 * 60 * 1000);
+    </script>
 </body>
 </html>
